@@ -6,4 +6,5 @@ export default {
   tabWidth: 2,
   useTabs: false,
   plugins: ['prettier-plugin-tailwindcss'],
+  tailwindStylesheet: './app/app.css',
 };

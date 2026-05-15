@@ -1,5 +1,5 @@
-import { useSearchParams } from '@remix-run/react';
-import type { MetaFunction } from '@remix-run/node';
+import { useSearchParams } from 'react-router';
+import type { MetaFunction } from 'react-router';
 import { getMessage } from '~/lib/message';
 
 export const meta: MetaFunction = () => [
