@@ -1,4 +1,9 @@
 module.exports = {
-  ignore: ['commitlint.config.js'],
   ignoreDependencies: ['@commitlint/config-conventional'],
+  entry: [
+    'app/root.tsx',
+    'app/routes/**/*',
+    'app/lib/**/*',
+  ],
+  ignore: ['commitlint.config.js'],
 };

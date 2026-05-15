@@ -2,14 +2,12 @@ node_modules
 .npm
 
 # Output
-dist
 .output
 .vercel
 .netlify
 .wrangler
 /.svelte-kit
 /build
-.astro
 
 # OS
 .DS_Store
