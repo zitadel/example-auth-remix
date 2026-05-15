@@ -13,6 +13,7 @@
     "format:check": "prettier --check .",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
+    "depcheck": "npx knip",
     "prepack": "tsc --noEmit",
     "start": "react-router dev",
     "test": "playwright test",
