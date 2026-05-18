@@ -1,9 +1,15 @@
 import { reactRouter } from '@react-router/dev/vite';
 import { defineConfig } from 'vite';
 import tailwindcss from '@tailwindcss/vite';
+import path from 'path';
 
 // noinspection JSUnusedGlobalSymbols
 export default defineConfig({
+  resolve: {
+    alias: {
+      '~': path.resolve(import.meta.dirname, './app'),
+    },
+  },
   plugins: [tailwindcss(), reactRouter()],
   server: {
     port: Number(process.env.PORT) || 3000,
