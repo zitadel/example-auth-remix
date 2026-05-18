@@ -21,6 +21,8 @@
   },
   "dependencies": {
     "@auth/core": "^0.41.0",
+    "@react-router/fs-routes": "^7.15.1",
+    "@react-router/node": "^7.15.1",
     "@zitadel/remix-auth": "file:../remix-auth",
     "isbot": "^4.4.0",
     "openid-client": "^6.6.3",

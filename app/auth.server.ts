@@ -70,7 +70,7 @@ declare module '@auth/core/jwt' {
   }
 }
 
-export const { handlers, getSession, signIn, signOut } = RemixAuth({
+export const { handlers, getSession, signIn } = RemixAuth({
   providers: [
     Zitadel({
       issuer: process.env.ZITADEL_DOMAIN!,
