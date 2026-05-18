@@ -92,9 +92,9 @@ Follow these steps to get the application running:
 
 ```bash
 # 1. Clone the repository
-git clone git@github.com:zitadel/example-remix-auth.git
+git clone git@github.com:zitadel/example-auth-remix.git
 
-cd example-remix-auth
+cd example-auth-remix
 
 # 2. Install the project dependencies
 npm install

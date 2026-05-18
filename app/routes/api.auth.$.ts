@@ -1,3 +1,4 @@
+// noinspection JSUnusedGlobalSymbols
 import { handlers } from '~/auth.server';
 
 export const loader = ({ request }: { request: Request }) =>

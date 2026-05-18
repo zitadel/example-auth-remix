@@ -9,6 +9,12 @@ export default [
   },
   js.configs.recommended,
   {
+    files: ['**/*.js'],
+    languageOptions: {
+      globals: globals.node,
+    },
+  },
+  {
     files: ['**/*.{ts,tsx}'],
     ...ts.configs.recommended[0],
     languageOptions: {
