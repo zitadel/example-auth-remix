@@ -1,6 +1,6 @@
 import type { LoaderFunctionArgs } from 'react-router';
-import { useLoaderData } from 'react-router';
-import { getSession, signIn } from '~/auth.server';
+import { redirect, useLoaderData } from 'react-router';
+import { getSession, signInUrl } from '~/auth.server';
 import type { Session } from '@auth/core/types';
 import { Header } from '~/components/Header';
 import { Footer } from '~/components/Footer';
@@ -9,7 +9,7 @@ import { Footer } from '~/components/Footer';
 export async function loader({ request }: LoaderFunctionArgs) {
   const session = await getSession(request);
   if (!session) {
-    return signIn('zitadel', { redirectTo: '/profile' });
+    throw redirect(signInUrl({ redirectTo: '/profile' }));
   }
   return { session };
 }
