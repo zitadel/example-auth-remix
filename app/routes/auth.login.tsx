@@ -6,6 +6,14 @@ import { getMessage } from '~/lib/message';
 // noinspection JSUnusedGlobalSymbols
 export const meta: MetaFunction = () => [{ title: 'Sign In' }];
 
+interface AuthProvider {
+  readonly id: string;
+  readonly name: string;
+  readonly type: string;
+  readonly signinUrl: string;
+  readonly callbackUrl: string;
+}
+
 // noinspection JSUnusedGlobalSymbols
 export default function LoginPage() {
   const [searchParams] = useSearchParams();
@@ -14,18 +22,27 @@ export default function LoginPage() {
   const { message } = getMessage(error, 'signin-error');
 
   const [csrfToken, setCsrfToken] = useState('');
+  const [providers, setProviders] = useState<Record<
+    string,
+    AuthProvider
+  > | null>(null);
 
   useEffect(() => {
-    fetch('/api/auth/csrf')
-      .then((res) => res.json())
-      .then((data: { csrfToken?: string }) => {
-        setCsrfToken(data?.csrfToken ?? '');
+    Promise.all([
+      fetch('/api/auth/csrf').then((res) => res.json()),
+      fetch('/api/auth/providers').then((res) => res.json()),
+    ])
+      .then(([csrf, provs]) => {
+        setCsrfToken((csrf as { csrfToken?: string })?.csrfToken ?? '');
+        setProviders(provs as Record<string, AuthProvider>);
       })
       .catch(() => {
-        // CSRF fetch failed; the form will fail to submit. Auth.js will
+        // Fetch failed; the form will fail to submit. Auth.js will
         // surface a MissingCSRF error which lands on the error page.
       });
   }, []);
+
+  const provider = providers?.zitadel;
 
   return (
     <main className="grid flex-1 place-items-center bg-white px-6 py-24 sm:py-32 lg:px-8">
@@ -55,29 +72,35 @@ export default function LoginPage() {
         >
           {error ? message : 'Continue to your account'}
         </p>
-        <div className="mt-10">
-          <form
-            action="/api/auth/signin/zitadel"
-            method="POST"
-            className="space-y-4"
-          >
-            <input type="hidden" name="csrfToken" value={csrfToken} />
-            <input type="hidden" name="callbackUrl" value={callbackUrl} />
-            <button
-              type="submit"
-              className="flex w-full items-center justify-center gap-3 rounded-lg bg-blue-600 px-4 py-3 font-semibold text-white transition duration-200 hover:bg-blue-700"
+        {provider && (
+          <div className="mt-10">
+            <form
+              action={provider.signinUrl}
+              method="POST"
+              className="space-y-4"
             >
-              <svg className="h-5 w-5" fill="currentColor" viewBox="0 0 24 24">
-                <path
-                  fillRule="evenodd"
-                  d="M8 10V7a4 4 0 1 1 8 0v3h1a2 2 0 0 1 2 2v7a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h1Zm2-3a2 2 0 1 1 4 0v3h-4V7Zm2 6a1 1 0 0 1 1 1v3a1 1 0 1 1-2 0v-3a1 1 0 0 1 1-1Z"
-                  clipRule="evenodd"
-                />
-              </svg>
-              Sign in with Zitadel
-            </button>
-          </form>
-        </div>
+              <input type="hidden" name="csrfToken" value={csrfToken} />
+              <input type="hidden" name="callbackUrl" value={callbackUrl} />
+              <button
+                type="submit"
+                className="flex w-full items-center justify-center gap-3 rounded-lg bg-blue-600 px-4 py-3 font-semibold text-white transition duration-200 hover:bg-blue-700"
+              >
+                <svg
+                  className="h-5 w-5"
+                  fill="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    fillRule="evenodd"
+                    d="M8 10V7a4 4 0 1 1 8 0v3h1a2 2 0 0 1 2 2v7a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h1Zm2-3a2 2 0 1 1 4 0v3h-4V7Zm2 6a1 1 0 0 1 1 1v3a1 1 0 1 1-2 0v-3a1 1 0 0 1 1-1Z"
+                    clipRule="evenodd"
+                  />
+                </svg>
+                Sign in with {provider.name}
+              </button>
+            </form>
+          </div>
+        )}
         <div className="mt-8">
           <Link
             to="/"
