@@ -18,7 +18,7 @@ interface AuthProvider {
 export default function LoginPage() {
   const [searchParams] = useSearchParams();
   const error = searchParams.get('error');
-  const callbackUrl = searchParams.get('callbackUrl') ?? '/';
+  const callbackUrl = searchParams.get('callbackUrl') ?? '/profile';
   const { message } = getMessage(error, 'signin-error');
 
   const [csrfToken, setCsrfToken] = useState('');
