@@ -1,4 +1,5 @@
 import type { MetaFunction } from 'react-router';
+import { signIn } from '@zitadel/remix-auth/client';
 import { Header } from '~/components/Header';
 import { Footer } from '~/components/Footer';
 
@@ -119,8 +120,11 @@ export default function Index() {
                       />
                     </div>
                   </div>
-                  <a
-                    href="/api/auth/signin/zitadel"
+                  <button
+                    type="button"
+                    onClick={() =>
+                      void signIn('zitadel', { callbackUrl: '/profile' })
+                    }
                     className="mb-6 flex w-full cursor-pointer items-center justify-center space-x-2 rounded-lg bg-blue-600 px-4 py-3 font-semibold text-white transition duration-200 hover:bg-blue-700"
                   >
                     <svg
@@ -139,7 +143,7 @@ export default function Index() {
                       />
                     </svg>
                     <span>Login</span>
-                  </a>
+                  </button>
                   <div className="text-center">
                     <p className="mb-4 text-sm text-gray-500">
                       What happens when you click the button:
