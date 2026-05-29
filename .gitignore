@@ -25,3 +25,6 @@ vite.config.ts.timestamp-*
 
 # Devbox
 .devbox/
+
+# React Router typegen output (generated)
+.react-router/
