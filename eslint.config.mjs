@@ -3,39 +3,41 @@ import ts from 'typescript-eslint';
 import prettier from 'eslint-config-prettier';
 import globals from 'globals';
 
-export default [
+export default ts.config(
   {
-    ignores: ['build/**', 'node_modules/**'],
+    ignores: [
+      'node_modules/**',
+      'dist/**',
+      'build/**',
+      'coverage/**',
+      '.react-router/**',
+    ],
   },
   js.configs.recommended,
-  {
-    files: ['**/*.js'],
-    languageOptions: {
-      globals: globals.node,
-    },
-  },
+  ...ts.configs.recommended,
   {
     files: ['**/*.{ts,tsx}'],
-    ...ts.configs.recommended[0],
     languageOptions: {
       parser: ts.parser,
-      globals: {
-        ...globals.browser,
-        ...globals.node,
-      },
-    },
-    plugins: {
-      '@typescript-eslint': ts.plugin,
+      parserOptions: { ecmaVersion: 'latest', sourceType: 'module' },
+      globals: { ...globals.browser, ...globals.node, ...globals.es2021 },
     },
     rules: {
       '@typescript-eslint/no-unused-vars': [
         'warn',
-        {
-          argsIgnorePattern: '^_',
-          varsIgnorePattern: '^_',
-        },
+        { argsIgnorePattern: '^_', varsIgnorePattern: '^_' },
       ],
     },
   },
+  {
+    files: ['**/*.{js,mjs}'],
+    languageOptions: {
+      globals: { ...globals.node, ...globals.es2021 },
+    },
+  },
+  {
+    files: ['**/*.{test,spec}.{ts,tsx,js,mjs}', 'test/**/*.{ts,tsx,js,mjs}'],
+    languageOptions: { globals: { ...globals.jest, ...globals.node } },
+  },
   prettier,
-];
+);
