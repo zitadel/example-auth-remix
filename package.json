@@ -20,7 +20,7 @@
     "test": "playwright test"
   },
   "dependencies": {
-    "@auth/core": "^0.40.0",
+    "@auth/core": "^0.41.3",
     "@react-router/fs-routes": "^8.0.1",
     "@react-router/node": "^8.0.1",
     "@zitadel/remix-auth": "^1.1.2",
